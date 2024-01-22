@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Météo Roubaix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Météo à Roubaix</h1>
+
+    <div id="weather-info">
+        <p>Chargement...</p>
+    </div>
+
+    <script>
+        // Replace 'YOUR_API_KEY' with a valid OpenWeatherMap API key
+        const apiKey = 'YOUR_API_KEY';
+        const city = 'Roubaix';
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const weatherInfo = document.getElementById('weather-info');
+                const temperature = data.main.temp;
+                const description = data.weather[0].description;
+                const icon = data.weather[0].icon;
+
+                weatherInfo.innerHTML = `
+                    <p>Température actuelle : ${temperature}°C</p>
+                    <p>Description : ${description}</p>
+                    <img src="http://openweathermap.org/img/w/${icon}.png" alt="Weather icon">
+                `;
+            })
+            .catch(error => {
+                console.error('Error fetching weather data:', error);
+                const weatherInfo = document.getElementById('weather-info');
+                weatherInfo.innerHTML = '<p>Impossible de récupérer les données météo.</p>';
+            });
+    </script>
+
+</body>
+
+</html>
